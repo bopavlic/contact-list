@@ -1,3 +1,4 @@
+import { useState, useMemo, useCallback } from 'react';
 import {
   Button,
   FormControl,
@@ -6,10 +7,13 @@ import {
   Select,
   TextField,
 } from '@mui/material';
-import { useState, useMemo } from 'react';
+import { contactSchema } from '../../services/validations/ContactValidation';
+import { validateYup } from '../../services/validations/validateYup';
 import { initialFormValues } from './consts';
+import _ from 'lodash';
 
-const ContactForm = () => {
+const ContactForm = (props) => {
+  const { setContactList } = props;
   const [formValues, setFormValues] = useState(initialFormValues);
   const [errors, setErrors] = useState({});
   const [contactType, setContactType] = useState('');
@@ -21,9 +25,21 @@ const ContactForm = () => {
     }));
   };
 
-  const handleFormSubmit = (e) => {
-    e.prevenetDefault();
-  };
+  const handleFormSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      const isValid = validateYup(formValues, contactSchema, setErrors);
+
+      if (!isValid) {
+        return;
+      }
+
+      formValues.id = _.uniqueId();
+
+      setContactList((oldState) => [...oldState, { ...formValues }]);
+    },
+    [formValues, setContactList]
+  );
 
   const checkContactType = useMemo(() => {
     switch (contactType) {
@@ -102,6 +118,7 @@ const ContactForm = () => {
           value={contactType}
           label='Contact'
           onChange={(e) => setContactType(e.target.value)}
+          required
         >
           <MenuItem value={'Mobile Phone'}>Mobile Phone</MenuItem>
           <MenuItem value={'Phone'}>Phone</MenuItem>

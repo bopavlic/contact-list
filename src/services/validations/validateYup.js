@@ -10,7 +10,6 @@ export const validateYup = (fields, schema, setErrors) => {
       (acc, curr) => ({ ...acc, [curr.path]: curr.message }),
       {}
     );
-    console.log(err.inner);
   }
 
   setErrors(errors);
