@@ -26,7 +26,6 @@ const ContactDetails = () => {
     { displayName: 'Phone' },
     { displayName: 'Email' },
     { displayName: 'Pager' },
-    { displayName: 'Delete' },
   ];
 
   useEffect(() => {
