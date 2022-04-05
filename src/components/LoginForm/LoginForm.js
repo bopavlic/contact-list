@@ -32,33 +32,37 @@ const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleFormSubmit}>
-      <TextField
-        type='email'
-        label='Email'
-        name='email'
-        placeholder='Your email address'
-        onChange={handleFieldChange}
-        value={formValues.email}
-        error={!!errors.email}
-        helperText={errors.email}
-        required
-      />
-      <TextField
-        type='password'
-        label='Password'
-        name='password'
-        placeholder='Your password address'
-        onChange={handleFieldChange}
-        value={formValues.password}
-        error={!!errors.password}
-        helperText={errors.password}
-        required
-      />
-      <Button type='submit' variant='contained' color='primary' size='large'>
-        Login
-      </Button>
-    </form>
+    <div className='loginForm'>
+      <form onSubmit={handleFormSubmit}>
+        <TextField
+          type='email'
+          label='Email'
+          name='email'
+          placeholder='Your email address'
+          className='loginFrom__field'
+          onChange={handleFieldChange}
+          value={formValues.email}
+          error={!!errors.email}
+          helperText={errors.email}
+          required
+        />
+        <TextField
+          type='password'
+          label='Password'
+          name='password'
+          placeholder='Your password address'
+          className='loginFrom__field'
+          onChange={handleFieldChange}
+          value={formValues.password}
+          error={!!errors.password}
+          helperText={errors.password}
+          required
+        />
+        <Button type='submit' variant='contained' color='primary' size='large'>
+          Login
+        </Button>
+      </form>
+    </div>
   );
 };
 

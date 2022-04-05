@@ -10,13 +10,14 @@ import {
 import { contactSchema } from '../../services/validations/ContactValidation';
 import { validateYup } from '../../services/validations/validateYup';
 import { initialFormValues } from './consts';
-import _ from 'lodash';
+import { useDispatch } from 'react-redux';
+import { addContact } from '../../features/contacts/contactsSlice';
 
-const ContactForm = (props) => {
-  const { setContactList } = props;
+const ContactForm = () => {
   const [formValues, setFormValues] = useState(initialFormValues);
   const [errors, setErrors] = useState({});
   const [contactType, setContactType] = useState('');
+  const dispatch = useDispatch();
 
   const handleFieldChange = (event) => {
     setFormValues((oldState) => ({
@@ -34,11 +35,11 @@ const ContactForm = (props) => {
         return;
       }
 
-      formValues.id = _.uniqueId();
-
-      setContactList((oldState) => [...oldState, { ...formValues }]);
+      dispatch(addContact(formValues));
+      setFormValues(initialFormValues);
+      setContactType('');
     },
-    [formValues, setContactList]
+    [formValues, dispatch]
   );
 
   const checkContactType = useMemo(() => {
@@ -113,6 +114,7 @@ const ContactForm = (props) => {
         <InputLabel id='demo-simple-select-label'>Contact</InputLabel>
         <Select
           m={2}
+          sx={{ width: '300px' }}
           labelId='demo-simple-select-label'
           id='demo-simple-select'
           value={contactType}
